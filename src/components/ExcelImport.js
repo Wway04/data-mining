@@ -29,38 +29,38 @@ const ExcelImport = ({ data = [], setData }) => {
   };
 
   return (
-    <div className="w-full rounded-lg overflow-hidden">
-      <div className="flex w-full">
-        <div className="w-full p-3">
-          <div
-            className="relative h-[540px] w-full rounded-lg border-2 border-blue-500 bg-gray-50 flex justify-center items-center shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
-          >
-            <div className="absolute flex flex-col items-center">
-              <img
-                alt="File Icon"
-                className="mb-3"
-                src="https://img.icons8.com/?size=60&id=103992&format=png&color=000000"
-              />
-              <span className="block text-gray-500 font-semibold">
-                Drag & drop your files here
-              </span>
-              <span className="block text-gray-400 font-normal mt-1">
-                or click to upload
-              </span>
-            </div>
-
-            <input
-              name="file"
-              className="h-full w-full opacity-0 cursor-pointer"
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFile}
+    <div className="w-full rounded-lg overflow-hidden flex items-center justify-center">
+    <div className="flex w-[75%]">
+      <div className="w-full p-3">
+        <div
+          className="relative h-[520px] w-full rounded-lg border border-blue-300 bg-gray-50 flex justify-center items-center shadow-md hover:shadow-lg hover:-translate-y-[2px] hover:bg-blue-50 transition-all duration-500 ease-in-out"
+        >
+          <div className="absolute flex flex-col items-center">
+            <img
+              alt="File Icon"
+              className="mb-3"
+              src="https://img.icons8.com/?size=60&id=103992&format=png&color=000000"
             />
+            <span className="block text-gray-500 font-semibold">
+              Drag & drop your files here
+            </span>
+            <span className="block text-gray-400 font-normal mt-1">
+              or click to upload
+            </span>
           </div>
+  
+          <input
+            name="file"
+            className="h-full w-full opacity-0 cursor-pointer"
+            type="file"
+            accept=".xlsx, .xls"
+            onChange={handleFile}
+          />
         </div>
       </div>
-
     </div>
+  </div>
+  
 
   );
 };

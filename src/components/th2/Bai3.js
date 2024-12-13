@@ -158,7 +158,7 @@ const TH2BAI3 = () => {
   return (
     <div className="min-h-screen p-8 relative">
       <div className="container mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
+        <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
           Phân Tích Luật Kết Hợp - TH2BAI3
         </h1>
 
@@ -169,7 +169,7 @@ const TH2BAI3 = () => {
             <div className="flex justify-center mb-6">
               <button
                 onClick={handleSubmit}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
               >
                 Thực hiện tính toán
               </button>

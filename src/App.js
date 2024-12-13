@@ -37,7 +37,7 @@ function App() {
   <div className="w-64 bg-white border-r shadow-lg sticky top-0 h-screen mr-2 rounded-lg">
   <div className="p-6 border-b">
 
-    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 text-transparent bg-clip-text">
+    <h1 class="text-2xl font-bold text-blue-600 bg-gradient-to-r from-blue-400 to-blue-600 text-transparent bg-clip-text">
       Data Mining
 </h1>
   </div>
@@ -50,8 +50,9 @@ function App() {
           className={`mb-4 cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 ease-in-out font-semibold transform ${
             selected === key
               ? "bg-blue-500 text-white scale-105 shadow-md"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:scale-105"
+              : "text-gray-600 hover:bg-blue-100 hover:border hover:border-blue-400 hover:shadow-lg hover:text-blue-700 hover:scale-105"
           }`}
+          
           onClick={() => setSelected(key)}
         >
           {key}

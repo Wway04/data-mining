@@ -95,7 +95,7 @@ const Bai2 = () => {
     return (
         <div className="min-h-screen p-8 relative">
             <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
+                <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
                     Phân lớp Naive Bayes có làm trơn Laplace
                 </h1>
                 {!processedData.length && <ExcelImport data={processedData} setData={setProcessedData} />}
@@ -109,7 +109,7 @@ const Bai2 = () => {
                                     calculateProbabilities(processedData);
                                 }}
                                 disabled={loading}
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
                             >
                                 {loading ? 'Đang tính toán...' : 'Tính toán Xác suất'}
                             </button>

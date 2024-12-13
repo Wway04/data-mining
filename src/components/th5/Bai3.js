@@ -84,68 +84,92 @@ const Bai3 = () => {
 
     return (
         <div className="min-h-screen p-8 relative">
-            <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
-                    Mô hình hóa phân cụm K-Means
-                </h1>
-
-                {/* Button to perform clustering */}
-                <div className="flex justify-center mb-6">
-                    <button 
-                        onClick={() => kMeansClustering(2)} 
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        Chạy K-Means
-                    </button>
-                </div>
-
-             {/* Only render Cluster Labels and Centroids if data is available */}
-{clusterData && labels.length > 0 && (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 p-6">
-        <h3 className="text-xl text-gray-700">Cluster Labels</h3>
-        {labels.map((label, index) => (
-            <p key={index} className="text-gray-600">
-                Điểm {index + 1} với tọa độ [{X[index].join(', ')}] thuộc cụm: {label + 1}
-            </p>
-        ))}
-        <h3 className="text-xl text-gray-700">Centroids</h3>
-        {clusterData.centroids.map((centroid, index) => (
-            <p key={index} className="text-gray-600">
-                Centroid {index + 1}: [{centroid.map(c => c.toFixed(2)).join(', ')}]
-            </p>
-        ))}
-    </div>
-)}
-
-
-                {/* Only render the Scatter plot if chartData is available */}
-                {chartData.datasets.length > 0 && (
-                    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-6">
-                        <Scatter
-                            data={chartData}
-                            options={{
-                                responsive: true,
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'K-Means Clustering (k=2)',
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            title: () => ''
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    x: { title: { display: true, text: 'x1' } },
-                                    y: { title: { display: true, text: 'x2' } }
-                                }
-                            }}
-                        />
-                    </div>
-                )}
+        <div className="container mx-auto">
+          {/* Tiêu đề */}
+          <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
+            Mô hình hóa phân cụm K-Means
+          </h1>
+      
+          {/* Nút chạy K-Means */}
+          <div className="flex justify-center mb-10">
+            <button
+              onClick={() => kMeansClustering(2)}
+              className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+            >
+              Chạy K-Means
+            </button>
+          </div>
+      
+          {/* Hiển thị nhãn và centroid */}
+          {clusterData && labels.length > 0 && (
+            <div className="bg-white shadow-xl rounded-lg overflow-hidden mb-10 p-8">
+              <h3 className="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">
+                Kết quả phân cụm
+              </h3>
+              <div>
+                <h4 className="text-xl text-blue-500 mb-3">Nhãn cụm</h4>
+                {labels.map((label, index) => (
+                  <p
+                    key={index}
+                    className="text-gray-700 text-sm mb-1 p-2 rounded-lg bg-gray-100 shadow-sm"
+                  >
+                    Điểm <span className="font-bold">{index + 1}</span> với tọa độ{' '}
+                    <span className="font-mono">
+                      [{X[index].join(', ')}]
+                    </span>{' '}
+                    thuộc cụm: <span className="text-blue-500 font-bold">{label + 1}</span>
+                  </p>
+                ))}
+              </div>
+              <div className="mt-6">
+                <h4 className="text-xl text-blue-500 mb-3">Centroids</h4>
+                {clusterData.centroids.map((centroid, index) => (
+                  <p
+                    key={index}
+                    className="text-gray-700 text-sm mb-1 p-2 rounded-lg bg-gray-100 shadow-sm"
+                  >
+                    Centroid <span className="font-bold">{index + 1}</span>:{' '}
+                    <span className="font-mono">
+                      [{centroid.map((c) => c.toFixed(2)).join(', ')}]
+                    </span>
+                  </p>
+                ))}
+              </div>
             </div>
+          )}
+      
+          {/* Hiển thị biểu đồ */}
+          {chartData.datasets.length > 0 && (
+            <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8">
+              <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                Biểu đồ phân cụm K-Means
+              </h3>
+              <Scatter
+                data={chartData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: 'K-Means Clustering (k=2)',
+                    },
+                    tooltip: {
+                      callbacks: {
+                        title: () => '',
+                      },
+                    },
+                  },
+                  scales: {
+                    x: { title: { display: true, text: 'x1' } },
+                    y: { title: { display: true, text: 'x2' } },
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
+      </div>
+      
     );
 };
 
