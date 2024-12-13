@@ -5,7 +5,7 @@ import ExcelImport from '../../ExcelImport'; // Assuming the ExcelImport is in t
 const CorrelationCalculator = () => {
     const [isCalculated, setIsCalculated] = useState(false);
     const [correlation, setCorrelation] = useState(null);
-    const [processedData, setProcessedData] = useState([]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const calculateCorrelation = (x, y) => {
@@ -23,18 +23,18 @@ const CorrelationCalculator = () => {
     };
 
     const processDataForCalculation = (data) => {
-        const processedData = data.map(row => ({
+        const result = data.map(row => ({
             ...row,
             x_y: row.revenue * row.adCost,
             x2: Math.pow(row.revenue, 2),
             y2: Math.pow(row.adCost, 2),
         }));
-        setProcessedData(processedData);
+        setData(result);
     };
 
     const handleCalculateCorrelation = () => {
-        const revenues = processedData.map(d => d.revenue);
-        const adCosts = processedData.map(d => d.adCost);
+        const revenues = data.map(d => d.revenue);
+        const adCosts = data.map(d => d.adCost);
 
         if (revenues.length === 0 || adCosts.length === 0) {
             alert("Dữ liệu không đầy đủ để tính toán hệ số tương quan.");
@@ -48,12 +48,6 @@ const CorrelationCalculator = () => {
         setLoading(false);
     };
 
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(processedData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Data');
-        XLSX.writeFile(wb, 'data.xlsx');
-    };
 
     const renderTable = (data, columns, title) => (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
@@ -65,8 +59,8 @@ const CorrelationCalculator = () => {
                     <thead className="bg-gray-100 border-b">
                         <tr>
                             {columns.map((col, index) => (
-                                <th 
-                                    key={index} 
+                                <th
+                                    key={index}
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     {col.charAt(0).toUpperCase() + col.slice(1)}
@@ -76,17 +70,17 @@ const CorrelationCalculator = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {data.map((item, rowIndex) => (
-                            <tr 
-                                key={rowIndex} 
+                            <tr
+                                key={rowIndex}
                                 className="hover:bg-gray-50 transition-colors duration-200"
                             >
                                 {columns.map((col, colIndex) => (
-                                    <td 
-                                        key={colIndex} 
+                                    <td
+                                        key={colIndex}
                                         className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                                     >
-                                        {typeof item[col] === 'number' 
-                                            ? item[col].toFixed(3) 
+                                        {typeof item[col] === 'number'
+                                            ? item[col].toFixed(3)
                                             : item[col]}
                                     </td>
                                 ))}
@@ -99,26 +93,32 @@ const CorrelationCalculator = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen p-8 relative">
             <div className="container mx-auto">
-                <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide">
+
+                <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
                     Tính Hệ Số Tương Quan
                 </h1>
+                {!(data.length > 0) && <ExcelImport
+                    data={data}
+                    setData={setData}
+                />}
+                {data.length > 0 &&
+                    renderTable(
+                        data,
+                        Object.keys(data[0]),
+                        "Dữ Liệu Nhập"
+                    )}
 
-                <ExcelImport 
-                    data={processedData} 
-                    setData={processDataForCalculation}
-                />
-
-                <div className="flex justify-center mb-6">
-                    <button 
-                        onClick={handleCalculateCorrelation} 
+               {data.length > 0  && <div className="flex justify-center mb-6">
+                    <button
+                        onClick={handleCalculateCorrelation}
                         disabled={loading}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                         {loading ? 'Đang tính toán...' : 'Tính toán hệ số tương quan'}
                     </button>
-                </div>
+                </div>}
 
 
                 {isCalculated && (
@@ -129,17 +129,6 @@ const CorrelationCalculator = () => {
                         <h2 className="text-3xl font-bold text-blue-600">
                             {correlation.toFixed(3)}
                         </h2>
-                    </div>
-                )}
-
-                {processedData.length > 0 && (
-                    <div className="flex justify-center mt-6">
-                        <button 
-                            onClick={exportToExcel}
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Tải xuống Excel
-                        </button>
                     </div>
                 )}
             </div>

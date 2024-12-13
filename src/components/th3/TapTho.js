@@ -169,34 +169,31 @@ const TapTho = () => {
         );
     };
 
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(processedData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Data');
-        XLSX.writeFile(wb, 'tap_tho.xlsx');
-    };
-
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen p-8 relative">
             <div className="container mx-auto">
-                <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide">
+                <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
                     Xử Lý Tập Thô
                 </h1>
 
-                <ExcelImport 
-                    data={processedData} 
-                    setData={processDataForCalculation}
-                />
+                {!processedData.length && (
+          <ExcelImport data={processedData} setData={processDataForCalculation} />
+        )}
+        {processedData.length > 0 &&
+          renderTable(processedData, Object.keys(processedData[0]), "Dữ liệu nhập")}
 
-                <div className="flex justify-center mb-6">
-                    <button 
-                        onClick={processData} 
-                        disabled={loading || processedData.length === 0}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        {loading ? 'Đang tính toán...' : 'Xử Lý Dữ Liệu'}
-                    </button>
-                </div>
+        
+                {processedData.length > 0 && (
+          <div className="flex justify-center mb-6">
+            <button
+              onClick={processData}
+              disabled={loading}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              {loading ? "Đang tính toán..." : "Tính toán"}
+            </button>
+          </div>
+        )}
 
                 {processedData.length > 0 && (
                     <>
@@ -273,15 +270,6 @@ const TapTho = () => {
                                 </div>
                             </div>
                         )}
-
-                        <div className="flex justify-center mt-6">
-                            <button 
-                                onClick={exportToExcel}
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Tải xuống Excel
-                            </button>
-                        </div>
                     </>
                 )}
             </div>

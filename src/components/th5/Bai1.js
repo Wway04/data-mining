@@ -68,17 +68,21 @@ const Bai1 = () => {
     };
 
     // Hàm hiển thị bảng dữ liệu
-    const renderTable = (data, title) => (
+    const renderTable = (data, columns, title) => (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
             <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">{title}</div>
             <div className="overflow-x-auto">
                 <table className="w-full">
                     <thead className="bg-gray-100 border-b">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">X</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">N</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">P</th>
-                        </tr>
+                    <tr>{columns.map((col, index) => (
+                                    <th 
+                                        key={index} 
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        {col.charAt(0).toUpperCase() + col.slice(1)}
+                                    </th>
+                                ))}
+                            </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {data.map((row, index) => (
@@ -108,37 +112,32 @@ const Bai1 = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <div className="container mx-auto">
-                <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide">
-                    Phân lớp Naive Bayes không dùng làm trơn Laplace
-                </h1>
-
-                <ExcelImport 
-                    data={processedData} 
-                    setData={setProcessedData}
-                />
-
-                <div className="flex justify-center mb-6">
-                    <button 
-                        onClick={handleButtonClick}
-                        disabled={loading}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        {loading ? 'Đang tính toán...' : 'Tính toán Xác suất'}
-                    </button>
-                </div>
-
-                {isDataLoaded && renderTable(processedData, "Dữ liệu Thời tiết")}
-
-                {results.length > 0 && (
-                    <div className="text-center mt-6">
-                        <h3 className="text-lg mb-2">Kết quả tính toán xác suất:</h3>
-                        {renderTable(results, "Xác suất Class N và Class P")}
+        <div className="min-h-screen p-8 relative">
+        <div className="container mx-auto">
+            <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
+                Phân lớp Naive Bayes không dùng làm trơn Laplace
+            </h1>
+            {!processedData.length && <ExcelImport data={processedData} setData={setProcessedData} />}
+            {processedData.length > 0  &&  renderTable(processedData, Object.keys(processedData[0]), "Dữ liệu nhập")}
+            {processedData.length > 0 && (
+                <>
+                    <div className="flex justify-center mb-6">
+                        <button
+                            onClick={() => {
+                                setLoading(true);
+                                calculateProbabilities(processedData);
+                            }}
+                            disabled={loading}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            {loading ? 'Đang tính toán...' : 'Tính toán Xác suất'}
+                        </button>
                     </div>
-                )}
-            </div>
+                    {results.length > 0 && renderTable(results,["X", "N", "P"], "Xác suất Class N và Class P")}
+                </>
+            )}
         </div>
+    </div>
     );
 };
 

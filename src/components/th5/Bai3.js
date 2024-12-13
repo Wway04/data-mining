@@ -83,9 +83,9 @@ const Bai3 = () => {
     
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen p-8 relative">
             <div className="container mx-auto">
-                <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide">
+                <h1 className="text-3xl font-bold text-center text-blue-500 mb-8 uppercase tracking-wide">
                     Mô hình hóa phân cụm K-Means
                 </h1>
 
@@ -93,7 +93,7 @@ const Bai3 = () => {
                 <div className="flex justify-center mb-6">
                     <button 
                         onClick={() => kMeansClustering(2)} 
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                         Chạy K-Means
                     </button>

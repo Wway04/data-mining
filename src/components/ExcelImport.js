@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
+import React, { useState } from "react";
+import * as XLSX from "xlsx";
 
 const ExcelImport = ({ data = [], setData }) => {
   const handleFile = (e) => {
@@ -8,16 +8,16 @@ const ExcelImport = ({ data = [], setData }) => {
 
     reader.onload = (evt) => {
       const bstr = evt.target.result;
-      const workbook = XLSX.read(bstr, { type: 'binary' });
+      const workbook = XLSX.read(bstr, { type: "binary" });
       const firstSheetName = workbook.SheetNames[0];
-      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { defval: "" }); // Ensure empty cells are included
-      
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { defval: "" });
+
       // Normalize keys to ensure all columns are present in every row
-      const allKeys = Array.from(new Set(rows.flatMap(Object.keys))); // Get all unique keys from all rows
-      const normalizedRows = rows.map(row => {
+      const allKeys = Array.from(new Set(rows.flatMap(Object.keys)));
+      const normalizedRows = rows.map((row) => {
         const normalizedRow = {};
-        allKeys.forEach(key => {
-          normalizedRow[key] = row[key] || ""; // Fill missing keys with empty string
+        allKeys.forEach((key) => {
+          normalizedRow[key] = row[key] || "";
         });
         return normalizedRow;
       });
@@ -29,62 +29,39 @@ const ExcelImport = ({ data = [], setData }) => {
   };
 
   return (
-    <div className="mb-6">
-      <div className="flex items-center justify-center mb-4">
-        <input
-          type="file"
-          accept=".xlsx, .xls"
-          onChange={handleFile}
-          className="block w-full text-sm text-slate-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-            file:bg-blue-50 file:text-blue-700
-            hover:file:bg-blue-100"
-        />
-      </div>
+    <div className="w-full rounded-lg overflow-hidden">
+      <div className="flex w-full">
+        <div className="w-full p-3">
+          <div
+            className="relative h-[540px] w-full rounded-lg border-2 border-blue-500 bg-gray-50 flex justify-center items-center shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+          >
+            <div className="absolute flex flex-col items-center">
+              <img
+                alt="File Icon"
+                className="mb-3"
+                src="https://img.icons8.com/?size=60&id=103992&format=png&color=000000"
+              />
+              <span className="block text-gray-500 font-semibold">
+                Drag & drop your files here
+              </span>
+              <span className="block text-gray-400 font-normal mt-1">
+                or click to upload
+              </span>
+            </div>
 
-      {data.length > 0 && (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">
-            Dữ Liệu Nhập
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-100 border-b">
-                <tr>
-                  {Object.keys(data[0]).map((key, index) => (
-                    <th
-                      key={index}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      {key.charAt(0).toUpperCase() + key.slice(1)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {data.map((row, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    className="hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    {Object.values(row).map((value, colIndex) => (
-                      <td
-                        key={colIndex}
-                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                      >
-                        {value}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <input
+              name="file"
+              className="h-full w-full opacity-0 cursor-pointer"
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFile}
+            />
           </div>
         </div>
-      )}
+      </div>
+
     </div>
+
   );
 };
 
