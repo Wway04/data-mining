@@ -69,9 +69,13 @@ const Bai1 = () => {
 
     // Hàm hiển thị bảng dữ liệu
     const renderTable = (data, columns, title) => (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 ">
             <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">{title}</div>
-            <div className="overflow-x-auto">
+            <div className="max-h-[400px] overflow-y-auto overflow-x-auto" 
+        style={{ 
+          scrollbarWidth: 'thin', 
+          scrollbarColor: 'rgb(59 130 246) transparent' 
+        }}>
                 <table className="w-full">
                     <thead className="bg-gray-100 border-b">
                     <tr>{columns.map((col, index) => (
@@ -113,9 +117,9 @@ const Bai1 = () => {
 
     return (
         <div className="min-h-screen p-8 relative">
-        <div className="container mx-auto">
+        <div className="container mx-auto ">
             <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
-                Phân lớp Naive Bayes không dùng làm trơn Laplace
+            Phân lớp Naive Bayes (Không Laplace)
             </h1>
             {!processedData.length && <ExcelImport data={processedData} setData={setProcessedData} />}
             {processedData.length > 0  &&  renderTable(processedData, Object.keys(processedData[0]), "Dữ liệu nhập")}

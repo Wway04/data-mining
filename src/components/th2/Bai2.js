@@ -145,9 +145,13 @@ const TH2BAI2 = () => {
   };
 
   const renderTable = (data, columns, title) => (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 ">
       <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">{title}</div>
-      <div className="overflow-x-auto">
+      <div className="max-h-[400px] overflow-y-auto overflow-x-auto" 
+        style={{ 
+          scrollbarWidth: 'thin', 
+          scrollbarColor: 'rgb(59 130 246) transparent' 
+        }}>
         <table className="w-full">
           <thead className="bg-gray-100 border-b">
             <tr>
@@ -183,9 +187,9 @@ const TH2BAI2 = () => {
 
   return (
     <div className="min-h-screen p-8 relative">
-      <div className="container mx-auto">
+      <div className="container mx-auto ">
         <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
-          Phân Tích Giỏ Hàng - TH2BAI2
+        Phân Tích Tập Phổ Biến 2
         </h1>
 
         {!data.length && <ExcelImport data={data} setData={setData} />}
@@ -205,14 +209,14 @@ const TH2BAI2 = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 gap-6">
-              {renderTable(frequentItemsets, ["itemsets", "support"], "Tập Phổ Biến")}
-              {renderTable(maximalItemsets, ["itemsets", "support"], "Tập Phổ Biến Tối Đại")}
-              {renderTable(
+              {frequentItemsets.length > 0 && renderTable(frequentItemsets, ["itemsets", "support"], "Tập Phổ Biến")}
+              {maximalItemsets.length > 0 && renderTable(maximalItemsets, ["itemsets", "support"], "Tập Phổ Biến Tối Đại")}
+              {associationRules.length > 0 && renderTable(
                 associationRules,
                 ["antecedents", "consequents", "support", "confidence"],
                 "Các Luật Kết Hợp"
               )}
-              {renderTable(
+              {maximalAssociationRules.length > 0 && renderTable(
                 maximalAssociationRules,
                 ["antecedents", "consequents", "support", "confidence"],
                 "Các Luật Kết Hợp Từ Tập Phổ Biến Tối Đại"

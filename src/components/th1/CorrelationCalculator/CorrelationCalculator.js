@@ -22,16 +22,6 @@ const CorrelationCalculator = () => {
         return numerator / denominator;
     };
 
-    const processDataForCalculation = (data) => {
-        const result = data.map(row => ({
-            ...row,
-            x_y: row.revenue * row.adCost,
-            x2: Math.pow(row.revenue, 2),
-            y2: Math.pow(row.adCost, 2),
-        }));
-        setData(result);
-    };
-
     const handleCalculateCorrelation = () => {
         const revenues = data.map(d => d.revenue);
         const adCosts = data.map(d => d.adCost);
@@ -54,7 +44,11 @@ const CorrelationCalculator = () => {
             <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">
                 {title}
             </div>
-            <div className="overflow-x-auto">
+            <div className="max-h-[400px] overflow-y-auto overflow-x-auto"
+                style={{
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'rgb(59 130 246) transparent'
+                }}>
                 <table className="w-full">
                     <thead className="bg-gray-100 border-b">
                         <tr>
@@ -94,10 +88,10 @@ const CorrelationCalculator = () => {
 
     return (
         <div className="min-h-screen p-8 relative">
-            <div className="container mx-auto">
+            <div className="container mx-auto ">
 
                 <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
-                    Tính Hệ Số Tương Quan
+                    Hệ Số Tương Quan
                 </h1>
                 {!(data.length > 0) && <ExcelImport
                     data={data}
@@ -110,7 +104,7 @@ const CorrelationCalculator = () => {
                         "Dữ Liệu Nhập"
                     )}
 
-               {data.length > 0  && <div className="flex justify-center mb-6">
+                {data.length > 0 && <div className="flex justify-center mb-6">
                     <button
                         onClick={handleCalculateCorrelation}
                         disabled={loading}

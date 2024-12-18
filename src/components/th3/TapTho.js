@@ -36,17 +36,17 @@ const TapTho = () => {
         }
 
         setLoading(true);
-
+        // Phân loại dữ liệu thành hai nhóm: Mua và Kmua
         const dfYes = processedData.filter(d => d.Ketqua === 'Mua');
         const dfNo = processedData.filter(d => d.Ketqua === 'Kmua');
 
-        // Lower and upper TapThoroximation
+        // tính toán xấp xỉ dưới và xấp xỉ trên
         const lowerUpperTapThoroximation = (group) => {
             const lowerTapThorox = group;
             const upperTapThorox = processedData.filter(item => group.some(row => JSON.stringify(item) === JSON.stringify(row)));
             return { lowerTapThorox, upperTapThorox };
         };
-
+        // Tính toán lower và upper cho nhóm "Mua" và "Không Mua"
         const { lowerTapThorox: lowerYesData, upperTapThorox: upperYesData } = lowerUpperTapThoroximation(dfYes);
         const { lowerTapThorox: lowerNoData, upperTapThorox: upperNoData } = lowerUpperTapThoroximation(dfNo);
 
@@ -55,12 +55,14 @@ const TapTho = () => {
         setLowerNo(lowerNoData);
         setUpperNo(upperNoData);
 
-        // Boundary and outside for "Mua"
+        // Tính toán boundary (biên) và outside (ngoài) cho nhóm "Mua"
         const boundaryYesData = upperYesData.filter(item => !lowerYesData.some(row => JSON.stringify(item) === JSON.stringify(row)));
+        // Tính toán outside (ngoài) cho nhóm "Mua"
         const outsideYesData = processedData.filter(item => !upperYesData.some(row => JSON.stringify(item) === JSON.stringify(row)));
 
-        // Boundary and outside for "Kmua"
+        // Tính toán boundary (biên) và outside (ngoài) cho nhóm "KMua"
         const boundaryNoData = upperNoData.filter(item => !lowerNoData.some(row => JSON.stringify(item) === JSON.stringify(row)));
+        // Tính toán outside (ngoài) cho nhóm "KMua"
         const outsideNoData = processedData.filter(item => !upperNoData.some(row => JSON.stringify(item) === JSON.stringify(row)));
 
         setBoundaryYes(boundaryYesData);
@@ -128,11 +130,15 @@ const TapTho = () => {
         if (!data || data.length === 0) return null;
 
         return (
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 ">
                 <div className="bg-blue-500 text-white px-4 py-3 font-bold text-lg">
                     {title}
                 </div>
-                <div className="overflow-x-auto">
+                <div className="max-h-[400px] overflow-y-auto overflow-x-auto" 
+        style={{ 
+          scrollbarWidth: 'thin', 
+          scrollbarColor: 'rgb(59 130 246) transparent' 
+        }}>
                     <table className="w-full">
                         <thead className="bg-gray-100 border-b">
                             <tr>
@@ -171,9 +177,9 @@ const TapTho = () => {
 
     return (
         <div className="min-h-screen p-8 relative">
-            <div className="container mx-auto">
+            <div className="container mx-auto ">
                 <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
-                    Xử Lý Tập Thô
+                    Tập Thô
                 </h1>
 
                 {!processedData.length && (

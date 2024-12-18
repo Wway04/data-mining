@@ -84,10 +84,10 @@ const Bai3 = () => {
 
     return (
         <div className="min-h-screen p-8 relative">
-        <div className="container mx-auto">
+        <div className="container mx-auto ">
           {/* Tiêu đề */}
           <h1 className="text-2xl font-extrabold text-center text-blue-600 mb-8 uppercase tracking-wide shadow-xs p-2">
-            Mô hình hóa phân cụm K-Means
+          Phân cụm K-Means
           </h1>
       
           {/* Nút chạy K-Means */}
